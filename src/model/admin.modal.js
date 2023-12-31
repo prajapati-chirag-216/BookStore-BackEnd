@@ -37,7 +37,7 @@ const adminSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: "ADMIN",
+      default: "EMPLOYEE",
       required: true,
     },
     passwordResetToken: String,
