@@ -1,6 +1,6 @@
 const User = require("../model/user.modal");
 const status = require("http-status");
-const { sendResetPasswordEmail, sendWelcomeEmail } = require("../utils/email");
+// const { sendResetPasswordEmail, sendWelcomeEmail } = require("../utils/email");
 const ReviewServicies = require("./review.service");
 
 const UserServices = {
@@ -62,7 +62,7 @@ const UserServices = {
         for (let key in cartData) {
           cartItems.push({
             product: cartData[key]._id,
-            quantity: cartData[key].quntity,
+            quantity: cartData[key].quantity,
           });
         }
         resolve();
