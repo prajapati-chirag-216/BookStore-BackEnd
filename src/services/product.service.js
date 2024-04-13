@@ -40,15 +40,26 @@ const ProductServices = {
   async getFilteredProductsHandler(id, name) {
     let data;
     if (name === "sortByHighPrice") {
-      data = await Product.find({ category: id }).sort({ price: -1 });
+      data = await Product.find({ category: id, isDeleted: false }).sort({
+        price: -1,
+      });
     } else if (name === "sortByLowPrice") {
-      data = await Product.find({ category: id }).sort({ price: 1 });
+      data = await Product.find({ category: id, isDeleted: false }).sort({
+        price: 1,
+      });
     } else if (name === "sortByNewDate") {
-      data = await Product.find({ category: id }).sort({ createdAt: -1 });
+      data = await Product.find({ category: id, isDeleted: false }).sort({
+        createdAt: -1,
+      });
     } else if (name === "sortByOldDate") {
-      data = await Product.find({ category: id }).sort({ createdAt: 1 });
+      data = await Product.find({ category: id, isDeleted: false }).sort({
+        createdAt: 1,
+      });
     } else if (name === "sortByPopularity") {
-      const productsArr = await Product.find({ category: id });
+      const productsArr = await Product.find({
+        category: id,
+        isDeleted: false,
+      });
       const result = await Promise.all(
         productsArr.map(async (prodObj) => {
           const reviews = await prodObj.populate("productReviews");

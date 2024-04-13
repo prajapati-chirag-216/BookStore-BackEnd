@@ -4,8 +4,8 @@ const status = require("http-status");
 
 const auth = async (req, res, next) => {
   try {
-    const accessToken = req.cookies["accessToken"];
-    const refreshToken = req.cookies["refreshToken"];
+    const accessToken = req.cookies["userAccessToken"];
+    const refreshToken = req.cookies["userRefreshToken"];
     let data;
     if (refreshToken) {
       let accessTokenDecoded;
@@ -47,8 +47,8 @@ const auth = async (req, res, next) => {
 };
 const verifyUser = async (req, res, next) => {
   try {
-    const accessToken = req.cookies["accessToken"];
-    const refreshToken = req.cookies["refreshToken"];
+    const accessToken = req.cookies["userAccessToken"];
+    const refreshToken = req.cookies["userRefreshToken"];
     let data;
     if (refreshToken) {
       let accessTokenDecoded;
@@ -91,7 +91,7 @@ const verifyUser = async (req, res, next) => {
 };
 const verifyRefreshToken = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies["refreshToken"];
+    const refreshToken = req.cookies["adminRefreshToken"];
     let data;
     if (refreshToken) {
       const refreshTokenDecoded = jwt.verify(

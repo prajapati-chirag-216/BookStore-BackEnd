@@ -5,8 +5,8 @@ const roles = require("../utils/roles");
 
 const adminAuth = (role) => {
   return async (req, res, next) => {
-    const accessToken = req.cookies["accessToken"];
-    const refreshToken = req.cookies["refreshToken"];
+    const accessToken = req.cookies["adminAccessToken"];
+    const refreshToken = req.cookies["adminRefreshToken"];
     let data;
     if (refreshToken) {
       let accessTokenDecoded;
@@ -55,8 +55,8 @@ const adminAuth = (role) => {
 };
 
 const verifyAdmin = async (req, res, next) => {
-  const accessToken = req.cookies["accessToken"];
-  const refreshToken = req.cookies["refreshToken"];
+  const accessToken = req.cookies["adminAccessToken"];
+  const refreshToken = req.cookies["adminRefreshToken"];
   let data;
   if (refreshToken) {
     let accessTokenDecoded;
@@ -92,7 +92,7 @@ const verifyAdmin = async (req, res, next) => {
 };
 
 const verifyAdminRefreshToken = async (req, res, next) => {
-  const refreshToken = req.cookies["refreshToken"];
+  const refreshToken = req.cookies["adminRefreshToken"];
   let data;
   if (refreshToken) {
     const refreshTokenDecoded = jwt.verify(

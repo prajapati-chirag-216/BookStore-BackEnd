@@ -1,7 +1,7 @@
 const UserServices = require("../services/user.service");
 const {
-  setAccessTokenCookie,
-  setRefreshTokenCookie,
+  setUserAccessTokenCookie,
+  setUserRefreshTokenCookie,
 } = require("../utils/function");
 
 const UserController = {
@@ -9,16 +9,16 @@ const UserController = {
     const { accessToken, refreshToken } = await UserServices.signupUserHandler(
       req.body
     );
-    setAccessTokenCookie(res, accessToken);
-    setRefreshTokenCookie(res, refreshToken);
+    setUserAccessTokenCookie(res, accessToken);
+    setUserRefreshTokenCookie(res, refreshToken);
     res.status(200).send({ success: true });
   },
 
   async loginUserHandler(req, res) {
     const { accessToken, refreshToken, cartItems } =
       await UserServices.loginUserHandler(req.body.email, req.body.password);
-    setAccessTokenCookie(res, accessToken);
-    setRefreshTokenCookie(res, refreshToken);
+    setUserAccessTokenCookie(res, accessToken);
+    setUserRefreshTokenCookie(res, refreshToken);
     res.status(200).send({
       success: true,
       cartItems,
@@ -26,8 +26,8 @@ const UserController = {
   },
 
   logoutUserHandler(req, res) {
-    res.clearCookie("refreshToken", { secure: true, sameSite: "None" });
-    res.clearCookie("accessToken", { secure: true, sameSite: "None" });
+    res.clearCookie("userRefreshToken", { secure: true, sameSite: "None" });
+    res.clearCookie("userAccessToken", { secure: true, sameSite: "None" });
     res.status(200).send({ success: true });
   },
 
@@ -62,7 +62,7 @@ const UserController = {
 
   async getAccessTokenHandler(req, res) {
     const accessToken = await UserServices.getAccessTokenHandler(req.user);
-    setAccessTokenCookie(res, accessToken);
+    setUserAccessTokenCookie(res, accessToken);
     res.status(200).send({
       success: true,
     });

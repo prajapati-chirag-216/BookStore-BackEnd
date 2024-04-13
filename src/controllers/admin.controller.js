@@ -1,16 +1,16 @@
 const status = require("http-status");
 const AdminServices = require("../services/admin.service");
 const {
-  setAccessTokenCookie,
-  setRefreshTokenCookie,
+  setAdminAccessTokenCookie,
+  setAdminRefreshTokenCookie,
 } = require("../utils/function");
 
 const AdminController = {
   async signupAdminHandler(req, res) {
     const { accessToken, refreshToken } =
       await AdminServices.signupAdminHandler(req.body);
-    setAccessTokenCookie(res, accessToken);
-    setRefreshTokenCookie(res, refreshToken);
+    setAdminAccessTokenCookie(res, accessToken);
+    setAdminRefreshTokenCookie(res, refreshToken);
     res.status(200).send({ success: true });
   },
 
@@ -19,8 +19,8 @@ const AdminController = {
       req.body.email,
       req.body.password
     );
-    setAccessTokenCookie(res, accessToken);
-    setRefreshTokenCookie(res, refreshToken);
+    setAdminAccessTokenCookie(res, accessToken);
+    setAdminRefreshTokenCookie(res, refreshToken);
 
     res.status(200).send({
       success: true,
@@ -28,8 +28,8 @@ const AdminController = {
   },
 
   async logoutAdminHandler(req, res) {
-    res.clearCookie("refreshToken", { secure: true, sameSite: "None" });
-    res.clearCookie("accessToken", { secure: true, sameSite: "None" });
+    res.clearCookie("adminRefreshToken", { secure: true, sameSite: "None" });
+    res.clearCookie("adminAccessToken", { secure: true, sameSite: "None" });
     res.status(200).send({ success: true });
   },
 
@@ -51,7 +51,7 @@ const AdminController = {
       throw { message: "Admin not exist", status: status.BAD_REQUEST };
     }
     const accessToken = await AdminServices.getAccessTokenHandler(req.admin);
-    setAccessTokenCookie(res, accessToken);
+    setAdminAccessTokenCookie(res, accessToken);
     res.status(200).send({
       success: true,
     });
