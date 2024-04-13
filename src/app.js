@@ -33,6 +33,7 @@ app.use(orderRouter);
 app.use(contactUsRouter);
 
 app.use((err, req, res, next) => {
+  console.log("err ", err);
   let errorCode = 500;
   let errorMessage = "Internal Server Error!";
   res.status(err.status || errorCode).send({

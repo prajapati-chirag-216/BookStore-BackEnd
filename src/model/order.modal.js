@@ -12,12 +12,10 @@ const orderSchema = new mongoose.Schema(
       email: {
         type: String,
         trim: true,
-        unique: [true, "Enter valid email please .."],
         lowercase: true,
         validate(value) {
           if (!validator.isEmail(value)) {
             throw { message: "Enter valid email .." };
-            // throw new Error("Enter valid email ..");
           }
         },
         required: true,

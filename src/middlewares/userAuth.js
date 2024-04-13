@@ -75,10 +75,6 @@ const verifyUser = async (req, res, next) => {
         throw {
           status: status.FORBIDDEN,
           message: "invalid access",
-          // message: {
-          //   text: "invalid access",
-          //   refreshTokenDecoded: true,
-          // },
         };
       }
     } else {
@@ -91,7 +87,7 @@ const verifyUser = async (req, res, next) => {
 };
 const verifyRefreshToken = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies["adminRefreshToken"];
+    const refreshToken = req.cookies["userRefreshToken"];
     let data;
     if (refreshToken) {
       const refreshTokenDecoded = jwt.verify(
