@@ -1,5 +1,6 @@
 const roles = {
   EMPLOYEE: [
+    "LOGOUT_ADMIN_OR_EMPLOYEE",
     "FETCH_CATEGORY",
     "FETCH_CATEGORIES",
     "FETCH_CATEGORY_BY_NAME",
@@ -13,7 +14,7 @@ const roles = {
   ],
   ADMIN: [
     "ADD_ADMIN",
-    "LOGOUT_ADMIN",
+    "LOGOUT_ADMIN_OR_EMPLOYEE",
     "FETCH_ADMINS",
     "UPDATE_ADMIN",
     "DELETE_ADMIN",

@@ -5,7 +5,7 @@ const {
   verifyRefreshToken,
 } = require("../middlewares/userAuth");
 const { adminAuth } = require("../middlewares/auth");
-const roleTypes = require("../utils/roleTypes");
+const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 const router = express.Router();
 
@@ -39,7 +39,7 @@ router.post(
 );
 router.get(
   "/getAllUsers",
-  catchAsync(adminAuth(roleTypes.FETCH_USERS)),
+  catchAsync(adminAuth(permissions.FETCH_USERS)),
   catchAsync(UserController.getAllUsersHandler)
 );
 router.get(
@@ -59,7 +59,7 @@ router.patch(
 );
 router.delete(
   "/deleteUser/:id",
-  catchAsync(adminAuth(roleTypes.DELETE_USER)),
+  catchAsync(adminAuth(permissions.DELETE_USER)),
   catchAsync(UserController.deleteUserHandler)
 );
 module.exports = router;

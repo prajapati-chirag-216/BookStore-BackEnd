@@ -1,6 +1,6 @@
-const roleTypes = {
+const permissions = {
   ADD_ADMIN: "ADD_ADMIN",
-  LOGOUT_ADMIN: "LOGOUT_ADMIN",
+  LOGOUT_ADMIN_OR_EMPLOYEE: "LOGOUT_ADMIN_OR_EMPLOYEE",
   FETCH_ADMINS: "FETCH_ADMINS",
   UPDATE_ADMIN: "UPDATE_ADMIN",
   DELETE_ADMIN: "DELETE_ADMIN",
@@ -28,4 +28,4 @@ const roleTypes = {
   FETCH_USERS: "FETCH_USERS",
   DELETE_USER: "DELETE_USER",
 };
-module.exports = roleTypes;
+module.exports = permissions;

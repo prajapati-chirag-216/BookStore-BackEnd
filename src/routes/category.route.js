@@ -1,6 +1,6 @@
 const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
-const roleTypes = require("../utils/roleTypes");
+const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 
 const CategoryController = require("../controllers/category.controller");
@@ -22,32 +22,32 @@ function allowUnauthenticated(role) {
 
 router.get(
   "/fetchCategory/:id",
-  catchAsync(allowUnauthenticated(roleTypes.FETCH_CATEGORY)),
+  catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORY)),
   catchAsync(CategoryController.getCategoryHandler)
 );
 router.get(
   "/getAllCategories",
-  catchAsync(allowUnauthenticated(roleTypes.FETCH_CATEGORIES)),
+  catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORIES)),
   catchAsync(CategoryController.getAllCategoriesHandler)
 );
 router.get(
   "/getCategoryByName/:name",
-  catchAsync(allowUnauthenticated(roleTypes.FETCH_CATEGORY_BY_NAME)),
+  catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORY_BY_NAME)),
   catchAsync(CategoryController.getCategoryByName)
 );
 router.post(
   "/addCategory",
-  catchAsync(adminAuth(roleTypes.ADD_CATEGORY)),
+  catchAsync(adminAuth(permissions.ADD_CATEGORY)),
   catchAsync(CategoryController.addCategoryHandler)
 );
 router.delete(
   "/deleteCategory/:id",
-  catchAsync(adminAuth(roleTypes.DELETE_CATEGORY)),
+  catchAsync(adminAuth(permissions.DELETE_CATEGORY)),
   catchAsync(CategoryController.deleteCategoryHandler)
 );
 router.patch(
   "/updatecategory/:id",
-  catchAsync(adminAuth(roleTypes.UPDATE_CATEGORY_BY_ID)),
+  catchAsync(adminAuth(permissions.UPDATE_CATEGORY_BY_ID)),
   catchAsync(CategoryController.updateCategoryHandler)
 );
 

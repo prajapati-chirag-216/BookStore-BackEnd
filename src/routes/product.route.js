@@ -1,6 +1,6 @@
 const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
-const roleTypes = require("../utils/roleTypes");
+const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 const ProductController = require("../controllers/product.controller");
 
@@ -13,7 +13,7 @@ router.get(
 router.get("/getproduct/:id", catchAsync(ProductController.getProductHandler));
 router.get(
   "/getAllproducts",
-  catchAsync(adminAuth(roleTypes.FETCH_PRODUCTS)),
+  catchAsync(adminAuth(permissions.FETCH_PRODUCTS)),
   catchAsync(ProductController.getAllProductsHandler)
 );
 router.get(
@@ -23,19 +23,19 @@ router.get(
 
 router.post(
   "/addproduct",
-  catchAsync(adminAuth(roleTypes.ADD_PRODUCT)),
+  catchAsync(adminAuth(permissions.ADD_PRODUCT)),
   catchAsync(ProductController.addProductHandler)
 );
 
 router.delete(
   "/deleteproduct/:id",
-  catchAsync(adminAuth(roleTypes.DELETE_PRODUCT)),
+  catchAsync(adminAuth(permissions.DELETE_PRODUCT)),
   catchAsync(ProductController.deleteProductHandler)
 );
 
 router.patch(
   "/updateproduct/:id",
-  catchAsync(adminAuth(roleTypes.UPDATE_PRODUCT)),
+  catchAsync(adminAuth(permissions.UPDATE_PRODUCT)),
   catchAsync(ProductController.updateProductHandler)
 );
 

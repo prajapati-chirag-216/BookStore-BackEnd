@@ -1,7 +1,7 @@
 const express = require("express");
 const { auth } = require("../middlewares/userAuth");
 const { adminAuth } = require("../middlewares/auth");
-const roleTypes = require("../utils/roleTypes");
+const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 
 const ReviewController = require("../controllers/review.controller");
@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.get(
   "/getproductReviews/:id",
-  catchAsync(allowUnauthenticated(roleTypes.FETCH_REVIEWS)),
+  catchAsync(allowUnauthenticated(permissions.FETCH_REVIEWS)),
   catchAsync(ReviewController.getAllReviewsHandler)
 );
 router.get(
@@ -40,7 +40,7 @@ router.post(
 
 router.delete(
   "/deleteReview/:id",
-  catchAsync(adminAuth(roleTypes)),
+  catchAsync(adminAuth(permissions)),
   catchAsync(ReviewController.deleteReviewHandler)
 );
 

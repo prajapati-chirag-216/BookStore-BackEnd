@@ -1,7 +1,7 @@
 const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
 const { auth } = require("../middlewares/userAuth");
-const roleTypes = require("../utils/roleTypes");
+const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 
 const OrderController = require("../controllers/order.controller");
@@ -26,7 +26,7 @@ const router = express.Router();
 
 router.get(
   "/getAllOrders",
-  catchAsync(adminAuth(roleTypes.FETCH_ORDERS)),
+  catchAsync(adminAuth(permissions.FETCH_ORDERS)),
   catchAsync(OrderController.getAllOrdersHandler)
 );
 router.get(
@@ -36,12 +36,12 @@ router.get(
 );
 router.get(
   "/getOrder/:id",
-  catchAsync(verifyAuth(roleTypes.FETCH_ORDER_BY_ID)),
+  catchAsync(verifyAuth(permissions.FETCH_ORDER_BY_ID)),
   catchAsync(OrderController.getOrderByIdHandler)
 );
 router.get(
   "/getTodaysOrders",
-  catchAsync(adminAuth(roleTypes.FETCH_TODAYS_ORDERS)),
+  catchAsync(adminAuth(permissions.FETCH_TODAYS_ORDERS)),
   catchAsync(OrderController.getTodaysOrdersHandler)
 );
 
@@ -53,13 +53,13 @@ router.post(
 
 router.patch(
   "/updateOrderStatus/:id",
-  catchAsync(adminAuth(roleTypes.UPDATE_ORDER_STATUS)),
+  catchAsync(adminAuth(permissions.UPDATE_ORDER_STATUS)),
   catchAsync(OrderController.getOrderStatusHandler)
 );
 
 router.delete(
   "/deleteOrder/:id",
-  catchAsync(adminAuth(roleTypes.DELETE_ORDER)),
+  catchAsync(adminAuth(permissions.DELETE_ORDER)),
   catchAsync(OrderController.deleteOrderHandler)
 );
 
