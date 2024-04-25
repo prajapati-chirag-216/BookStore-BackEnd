@@ -28,7 +28,7 @@ const adminAuth = (role) => {
         data = await Admin.findOne({
           _id: accessTokenDecoded._id,
         });
-        const isAllowed = roles[data.role.toUpperCase()].find(
+        const isAllowed = roles[data?.role.toUpperCase()]?.find(
           (val) => val === role
         );
         if (!isAllowed) {

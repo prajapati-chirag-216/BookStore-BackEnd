@@ -15,6 +15,10 @@ const CategoryController = {
     const data = await CategoryServices.getCategoryHandler(req.params.id);
     res.status(200).send(data);
   },
+  async searchCategoryHandler(req, res) {
+    const data = await CategoryServices.searchCategoryHandler(req.params.name);
+    res.status(200).send(data);
+  },
 
   async updateCategoryHandler(req, res) {
     const data = await CategoryServices.updateCategoryHandler(

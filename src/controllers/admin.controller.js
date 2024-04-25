@@ -61,6 +61,14 @@ const AdminController = {
     res.status(200).send(req.admin || null);
   },
 
+  async searchAdminHandler(req, res) {
+    // searchId could be partial as well so in res we return list of Admins that matches this searchId
+    const searchEmail = req.params.email;
+
+    const data = await AdminServices.searchAdminHandler(searchEmail);
+    res.status(200).send(data || []);
+  },
+
   async getAllAdminsHandler(req, res) {
     const data = await AdminServices.getAllAdminsHandler();
     return res.status(200).send(data);

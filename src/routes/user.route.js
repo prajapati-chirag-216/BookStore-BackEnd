@@ -17,6 +17,12 @@ router.get(
   catchAsync(UserController.getUserHandler)
 );
 
+router.get(
+  "/searchUser/:email",
+  catchAsync(adminAuth(permissions.SEARCH_USERS)),
+  catchAsync(UserController.searchUserHandler)
+);
+
 router.post("/user/signup", catchAsync(UserController.signupUserHandler));
 router.post("/user/login", catchAsync(UserController.loginUserHandler));
 router.post(

@@ -44,7 +44,11 @@ router.get(
   catchAsync(adminAuth(permissions.FETCH_TODAYS_ORDERS)),
   catchAsync(OrderController.getTodaysOrdersHandler)
 );
-
+router.get(
+  "/searchOrder/:id",
+  catchAsync(adminAuth(permissions.SEARCH_ORDERS)),
+  catchAsync(OrderController.searchOrderHandler)
+);
 router.post(
   "/postOrder",
   catchAsync(auth),

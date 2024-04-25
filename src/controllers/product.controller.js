@@ -15,7 +15,10 @@ const ProductController = {
     const data = await ProductServices.getAllProductsHandler();
     res.status(200).send(data);
   },
-
+  async searchProductHandler(req, res) {
+    const data = await ProductServices.searchProductHandler(req.params.name);
+    res.status(200).send(data);
+  },
   async addProductHandler(req, res) {
     const data = await ProductServices.addProductHandler(req.body);
     res.status(200).send(data);

@@ -57,6 +57,15 @@ const AdminServices = {
     return accessToken;
   },
 
+  async searchAdminHandler(searchEmail) {
+    const searchEmailWithoutSpaces = searchEmail.replace(/\s/g, "");
+    const data = await Admin.find({
+      email: new RegExp(searchEmailWithoutSpaces.split("").join(".*"), "i"),
+    }).exec();
+
+    return data;
+  },
+
   async getAllAdminsHandler() {
     const data = await Admin.find();
     return data;

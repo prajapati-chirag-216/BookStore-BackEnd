@@ -17,6 +17,11 @@ router.get(
   catchAsync(ProductController.getAllProductsHandler)
 );
 router.get(
+  "/searchProduct/:name",
+  catchAsync(adminAuth(permissions.SEARCH_PRODUCTS)),
+  catchAsync(ProductController.searchProductHandler)
+);
+router.get(
   "/getfilteredproducts/:id/:name",
   catchAsync(ProductController.getFilteredProductsHandler)
 );

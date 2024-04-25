@@ -24,7 +24,11 @@ router.get(
   catchAsync(adminAuth(permissions.FETCH_ADMINS)),
   catchAsync(AdminController.getAllAdminsHandler)
 );
-
+router.get(
+  "/searchAdmin/:email",
+  catchAsync(adminAuth(permissions.SEARCH_ADMIN_OR_EMPLOYEE)),
+  catchAsync(AdminController.searchAdminHandler)
+);
 // uncomment this to add initial Admin Data then comment it again
 // note that when adding admin data first time go to admin modal and in schema set role property's default value to ADMIN
 // router.post("/admin/signup", AdminController.signupAdminHandler);

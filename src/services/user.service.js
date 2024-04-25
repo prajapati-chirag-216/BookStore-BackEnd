@@ -2,6 +2,7 @@ const User = require("../model/user.modal");
 const status = require("http-status");
 // const { sendResetPasswordEmail, sendWelcomeEmail } = require("../utils/email");
 const ReviewServicies = require("./review.service");
+const { default: mongoose } = require("mongoose");
 
 const UserServices = {
   async signupUserHandler(userData) {
@@ -76,6 +77,15 @@ const UserServices = {
 
   async getAllUsersHandler() {
     const data = await User.find();
+    return data;
+  },
+
+  async searchUserHandler(searchEmail) {
+    const searchEmailWithoutSpaces = searchEmail.replace(/\s/g, "");
+    const data = await User.find({
+      email: new RegExp(searchEmailWithoutSpaces.split("").join(".*"), "i"),
+    }).exec();
+
     return data;
   },
 

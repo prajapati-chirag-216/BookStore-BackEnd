@@ -45,6 +45,14 @@ const UserController = {
     res.status(200).send(req.user || null);
   },
 
+  async searchUserHandler(req, res) {
+    // searchId could be partial as well so in res we return list of users that matches this searchId
+    const searchEmail = req.params.email;
+
+    const users = await UserServices.searchUserHandler(searchEmail);
+    res.status(200).send(users || []);
+  },
+
   async addCartItemsHandler(req, res) {
     const userData = req.user;
     const cartData = req.body;

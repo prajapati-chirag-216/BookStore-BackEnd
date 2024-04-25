@@ -101,14 +101,14 @@ adminSchema.statics.findbyCredentials = async function (email, password) {
   if (admin == null) {
     throw {
       status: status.UNAUTHORIZED,
-      message: "Invalide login details",
+      message: "Invalid login details",
     };
   }
   const compare = await bcrypt.compare(password, admin.password);
   if (!compare) {
     throw {
       status: status.UNAUTHORIZED,
-      message: "Invalide password",
+      message: "Invalid password",
     };
   }
   return admin;

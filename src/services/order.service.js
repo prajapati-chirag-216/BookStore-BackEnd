@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Order = require("../model/order.modal");
 const User = require("../model/user.modal");
 
@@ -29,6 +30,14 @@ const OrderServices = {
     if (!data) {
       throw { message: "Orders not found" };
     }
+    return data;
+  },
+  async searchOrderHandler(searchId) {
+    // we will change this currunly not working
+    const data = await Order.find({
+      _id: ObjectId(new RegExp(searchId, "i")),
+    }).populate("orderedItems.productId");
+
     return data;
   },
 

@@ -46,6 +46,10 @@ const OrderController = {
 
     res.status(200).send(data);
   },
+  async searchOrderHandler(req, res) {
+    const data = await OrderServices.searchOrderHandler(req.params.id);
+    res.status(200).send(data);
+  },
   async deleteOrderHandler(req, res) {
     const id = req.params.id;
     const data = await OrderServices.deleteOrderHandler(id);

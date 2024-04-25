@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Product = require("../model/product.modal");
 
 const ProductServices = {
@@ -10,12 +11,28 @@ const ProductServices = {
   },
 
   async getProductsOfCategory(id) {
-    const data = await Product.find({ category: id, isDeleted: false }).select({
-      category: 0,
-      createdAt: 0,
-      updatedAt: 0,
-      __v: 0,
+    const data = await Product.find({ category: id, isDeleted: false })
+      .select({
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0,
+      })
+      .populate({
+        path: "category",
+        select: "name",
+      });
+    return data;
+  },
+
+  async searchProductHandler(searchName) {
+    const searchNameWithoutSpaces = searchName.replace(/\s/g, "");
+    const data = await Product.find({
+      bookName: new RegExp(searchNameWithoutSpaces.split("").join(".*"), "i"),
+    }).populate({
+      path: "category",
+      select: "name",
     });
+    console.log("Data ", data);
 
     return data;
   },

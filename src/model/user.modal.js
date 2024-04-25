@@ -110,22 +110,14 @@ userSchema.statics.findbyCredentials = async function (email, password) {
   if (user == null) {
     throw {
       status: status.UNAUTHORIZED,
-      message: "Invalide login details",
-      // message: {
-      //   message: "Invalide login details",
-      //   validityStatus: "email",
-      // },
+      message: "Invalid login details",
     };
   }
   const compare = await bcrypt.compare(password, user.password);
   if (!compare) {
     throw {
       status: status.UNAUTHORIZED,
-      message: "Invalide password",
-      // message: {
-      //   message: "Invalide password",
-      //   validityStatus: "password",
-      // },
+      message: "Invalid password",
     };
   }
   return user;

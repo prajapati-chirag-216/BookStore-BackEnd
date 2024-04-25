@@ -26,6 +26,11 @@ router.get(
   catchAsync(CategoryController.getCategoryHandler)
 );
 router.get(
+  "/searchCategory/:name",
+  catchAsync(adminAuth(permissions.SEARCH_USERS)),
+  catchAsync(CategoryController.searchCategoryHandler)
+);
+router.get(
   "/getAllCategories",
   catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORIES)),
   catchAsync(CategoryController.getAllCategoriesHandler)
