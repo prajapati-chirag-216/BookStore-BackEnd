@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const { isValidObjectId } = require("mongoose");
 const Order = require("../model/order.modal");
 const User = require("../model/user.modal");
 
@@ -34,11 +34,17 @@ const OrderServices = {
   },
   async searchOrderHandler(searchId) {
     // we will change this currunly not working
-    const data = await Order.find({
-      _id: ObjectId(new RegExp(searchId, "i")),
-    }).populate("orderedItems.productId");
-
-    return data;
+    if (isValidObjectId(searchId)) {
+      const data = await Order.find({ _id: searchId }).populate(
+        "orderedItems.productId"
+      );
+      // here we are returning data in list formate because this way we are handling it in frontend
+      return data;
+    } else {
+      return {
+        isInValidId: true,
+      };
+    }
   },
 
   async updateOrderStatusHandler(status, OrderId) {
