@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Product = require("../model/product.modal");
 
 const ProductServices = {
@@ -32,7 +31,6 @@ const ProductServices = {
       path: "category",
       select: "name",
     });
-    console.log("Data ", data);
 
     return data;
   },

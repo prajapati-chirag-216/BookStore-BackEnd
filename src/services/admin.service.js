@@ -70,6 +70,10 @@ const AdminServices = {
     const data = await Admin.find();
     return data;
   },
+  async getAdminHandler(id) {
+    const data = await Admin.findById(id);
+    return data;
+  },
 
   async updateAdminHandler(adminData, id) {
     const data = await Admin.findByIdAndUpdate({ _id: id }, adminData, {

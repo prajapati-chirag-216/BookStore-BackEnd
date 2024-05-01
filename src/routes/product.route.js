@@ -3,6 +3,7 @@ const { adminAuth } = require("../middlewares/auth");
 const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
 const ProductController = require("../controllers/product.controller");
+const allowUnauthenticated = require("../middlewares/genreal");
 
 const router = express.Router();
 
@@ -10,7 +11,11 @@ router.get(
   "/getproductsOfCategory/:id",
   catchAsync(ProductController.getProductsOfCategory)
 );
-router.get("/getproduct/:id", catchAsync(ProductController.getProductHandler));
+router.get(
+  "/getproduct/:id",
+  catchAsync(allowUnauthenticated(permissions.FETCH_PRODUCT)),
+  catchAsync(ProductController.getProductHandler)
+);
 router.get(
   "/getAllproducts",
   catchAsync(adminAuth(permissions.FETCH_PRODUCTS)),

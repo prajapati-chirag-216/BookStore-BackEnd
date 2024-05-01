@@ -33,9 +33,15 @@ app.use(orderRouter);
 app.use(contactUsRouter);
 
 app.use((err, req, res, next) => {
-  console.log("err ", err);
   let errorCode = 500;
   let errorMessage = "Internal Server Error!";
+  if (err.code == 11000 && err.keyPattern) {
+    err.message = `Record already exists with the same ${Object.keys(
+      err.keyPattern
+    )}`;
+    errorCode = 409;
+  }
+  console.log("err ", err);
   res.status(err.status || errorCode).send({
     message: err.message || errorMessage,
   });

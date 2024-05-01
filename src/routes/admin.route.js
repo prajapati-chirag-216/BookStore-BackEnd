@@ -17,12 +17,17 @@ router.get(
 router.get(
   "/admin/profile",
   catchAsync(verifyAdmin),
-  catchAsync(AdminController.getAdminHandler)
+  catchAsync(AdminController.getAdminProfileHandler)
 );
 router.get(
   "/getAllAdmins",
   catchAsync(adminAuth(permissions.FETCH_ADMINS)),
   catchAsync(AdminController.getAllAdminsHandler)
+);
+router.get(
+  "/getAdmin/:id",
+  catchAsync(adminAuth(permissions.FETCH_ADMIN_OR_EMPLOYEE)),
+  catchAsync(AdminController.getAdminHandler)
 );
 router.get(
   "/searchAdmin/:email",

@@ -57,8 +57,14 @@ const AdminController = {
     });
   },
 
-  async getAdminHandler(req, res) {
+  async getAdminProfileHandler(req, res) {
     res.status(200).send(req.admin || null);
+  },
+
+  async getAdminHandler(req, res) {
+    const id = req.params.id;
+    const data = await AdminServices.getAdminHandler(id);
+    res.status(200).send(data || []);
   },
 
   async searchAdminHandler(req, res) {

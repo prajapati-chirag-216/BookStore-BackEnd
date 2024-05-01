@@ -36,6 +36,7 @@ const roles = {
     "UPDATE_ADMIN",
     "DELETE_ADMIN",
     "FETCH_ADMINS",
+    "FETCH_ADMIN_OR_EMPLOYEE",
     "SEARCH_ADMIN_OR_EMPLOYEE",
 
     // General permissions
@@ -63,6 +64,7 @@ const roles = {
     "DELETE_ORDER",
 
     // Product permissions
+    "FETCH_PRODUCT",
     "FETCH_PRODUCTS",
     "ADD_PRODUCT",
     "DELETE_PRODUCT",

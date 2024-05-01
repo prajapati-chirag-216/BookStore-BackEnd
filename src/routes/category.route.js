@@ -2,23 +2,10 @@ const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
 const permissions = require("../utils/permissions");
 const catchAsync = require("../errors/catchAsync");
+const allowUnauthenticated = require("../middlewares/genreal");
 
 const CategoryController = require("../controllers/category.controller");
 const router = express.Router();
-
-function allowUnauthenticated(role) {
-  return (req, res, next) => {
-    const { origin } = req.headers;
-    if (origin === "http://localhost:5000") {
-      return next();
-    } else {
-      adminAuth(role)(req, res, next).catch((error) => {
-        console.error("adminAuth error:", error);
-        next(error);
-      });
-    }
-  };
-}
 
 router.get(
   "/fetchCategory/:id",
