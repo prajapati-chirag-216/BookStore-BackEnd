@@ -1,4 +1,5 @@
 const Product = require("../model/product.modal");
+const SORTING_OPTIONS = require("../utils/variables");
 
 const ProductServices = {
   async getAllProductsHandler() {
@@ -41,8 +42,6 @@ const ProductServices = {
       path: "category",
       select: "name _id",
     });
-
-    
 
     const reviews = await data.populate("productReviews");
     const avgRatings =
@@ -88,7 +87,7 @@ const ProductServices = {
     searchTxt
   ) {
     let data;
-    if (sortBy === "sortByHighPrice") {
+    if (sortBy === SORTING_OPTIONS.SORT_BY_PRICE_HIGH_TO_LOW) {
       data = await this.sortProductWithSearchHandler(
         id,
         windowSize,
@@ -96,7 +95,7 @@ const ProductServices = {
         searchTxt,
         { price: -1 }
       );
-    } else if (sortBy === "sortByLowPrice") {
+    } else if (sortBy === SORTING_OPTIONS.SORT_BY_PRICE_LOW_TO_HIGH) {
       data = await this.sortProductWithSearchHandler(
         id,
         windowSize,
@@ -104,7 +103,7 @@ const ProductServices = {
         searchTxt,
         { price: 1 }
       );
-    } else if (sortBy === "sortByNewDate") {
+    } else if (sortBy === SORTING_OPTIONS.SORT_BY_DATE_NEW_TO_OLD) {
       data = await this.sortProductWithSearchHandler(
         id,
         windowSize,
@@ -112,7 +111,7 @@ const ProductServices = {
         searchTxt,
         { createdAt: -1 }
       );
-    } else if (sortBy === "sortByOldDate") {
+    } else if (sortBy === SORTING_OPTIONS.SORT_BY_DATE_OLD_TO_NEW) {
       data = await this.sortProductWithSearchHandler(
         id,
         windowSize,
@@ -120,7 +119,7 @@ const ProductServices = {
         searchTxt,
         { createdAt: 1 }
       );
-    } else if (sortBy === "sortByPopularity") {
+    } else if (sortBy === SORTING_OPTIONS.SORT_BY_HIGH_RATINGS) {
       data = await this.sortProductWithSearchHandler(
         id,
         windowSize,

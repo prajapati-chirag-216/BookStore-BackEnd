@@ -1,4 +1,5 @@
 const ProductServices = require("../services/product.service");
+const SORTING_OPTIONS = require("../utils/variables");
 
 const ProductController = {
   async getProductsOfCategory(req, res) {
@@ -46,7 +47,8 @@ const ProductController = {
     const id = req.params.id;
     const windowSize = req.params?.window || 10;
     const skip = (req.params?.skip || 0) * windowSize;
-    const sortBy = req.params?.sortBy || "sortByNewDate";
+    const sortBy =
+      req.params?.sortBy || SORTING_OPTIONS.SORT_BY_DATE_NEW_TO_OLD;
     const searchTxt = req.params?.searchTxt || "all";
 
     const data = await ProductServices.getFilteredProductsHandler(
