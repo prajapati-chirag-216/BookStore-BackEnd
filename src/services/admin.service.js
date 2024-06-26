@@ -1,5 +1,6 @@
 const Admin = require("../model/admin.modal");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 const { sendResetPasswordEmail } = require("../utils/email");
 const status = require("http-status");
 
@@ -76,6 +77,9 @@ const AdminServices = {
   },
 
   async updateAdminHandler(adminData, id) {
+    if (adminData.password) {
+      adminData.password = await bcrypt.hash(adminData.password, 8);
+    }
     const data = await Admin.findByIdAndUpdate({ _id: id }, adminData, {
       new: 1,
     });

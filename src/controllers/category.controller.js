@@ -34,9 +34,15 @@ const CategoryController = {
     res.status(200).send({ success: true });
   },
 
-  async getCategoryByName(req, res) {
-    const data = await CategoryServices.getCategoryByNameHandler(
-      req.params.name
+  async getFilteredCategoriesHandler(req, res) {
+    const windowSize = req.params?.window || 10;
+    const skip = (req.params?.skip || 0) * windowSize;
+    const searchTxt = req.params?.searchTxt || "all";
+
+    const data = await CategoryServices.getFilteredCategoriesHandler(
+      windowSize,
+      skip,
+      searchTxt
     );
     res.status(200).send(data);
   },

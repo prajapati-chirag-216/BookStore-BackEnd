@@ -41,7 +41,6 @@ app.use((err, req, res, next) => {
     )}`;
     errorCode = 409;
   }
-  console.log("err ", err);
   res.status(err.status || errorCode).send({
     message: err.message || errorMessage,
   });

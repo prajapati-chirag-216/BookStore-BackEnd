@@ -23,15 +23,16 @@ const ProductServices = {
     return data;
   },
 
-  async searchProductHandler(searchName) {
+  async searchProductHandler(id, searchName) {
     const searchNameWithoutSpaces = searchName.replace(/\s/g, "");
     const data = await Product.find({
+      category: id,
       bookName: new RegExp(searchNameWithoutSpaces.split("").join(".*"), "i"),
+      isDeleted: false,
     }).populate({
       path: "category",
       select: "name",
     });
-
     return data;
   },
 
@@ -40,6 +41,8 @@ const ProductServices = {
       path: "category",
       select: "name _id",
     });
+
+    
 
     const reviews = await data.populate("productReviews");
     const avgRatings =
@@ -52,31 +55,82 @@ const ProductServices = {
     };
   },
 
-  async getFilteredProductsHandler(id, name) {
+  // sorting products with applied search and filter
+  async sortProductWithSearchHandler(
+    id,
+    windowSize,
+    skipRecords,
+    searchTxt,
+    sortBy
+  ) {
+    if (searchTxt !== "all") {
+      const searchResults = await this.searchProductHandler(id, searchTxt);
+      const data = await Product.find({
+        _id: { $in: searchResults.map((product) => product._id) },
+      })
+        .sort(sortBy)
+        .skip(skipRecords)
+        .limit(windowSize + 1);
+      return data;
+    }
+    const data = await Product.find({ category: id, isDeleted: false })
+      .sort(sortBy)
+      .skip(skipRecords)
+      .limit(windowSize + 1);
+    return data;
+  },
+
+  async getFilteredProductsHandler(
+    id,
+    windowSize,
+    skipRecords,
+    sortBy,
+    searchTxt
+  ) {
     let data;
-    if (name === "sortByHighPrice") {
-      data = await Product.find({ category: id, isDeleted: false }).sort({
-        price: -1,
-      });
-    } else if (name === "sortByLowPrice") {
-      data = await Product.find({ category: id, isDeleted: false }).sort({
-        price: 1,
-      });
-    } else if (name === "sortByNewDate") {
-      data = await Product.find({ category: id, isDeleted: false }).sort({
-        createdAt: -1,
-      });
-    } else if (name === "sortByOldDate") {
-      data = await Product.find({ category: id, isDeleted: false }).sort({
-        createdAt: 1,
-      });
-    } else if (name === "sortByPopularity") {
-      const productsArr = await Product.find({
-        category: id,
-        isDeleted: false,
-      });
+    if (sortBy === "sortByHighPrice") {
+      data = await this.sortProductWithSearchHandler(
+        id,
+        windowSize,
+        skipRecords,
+        searchTxt,
+        { price: -1 }
+      );
+    } else if (sortBy === "sortByLowPrice") {
+      data = await this.sortProductWithSearchHandler(
+        id,
+        windowSize,
+        skipRecords,
+        searchTxt,
+        { price: 1 }
+      );
+    } else if (sortBy === "sortByNewDate") {
+      data = await this.sortProductWithSearchHandler(
+        id,
+        windowSize,
+        skipRecords,
+        searchTxt,
+        { createdAt: -1 }
+      );
+    } else if (sortBy === "sortByOldDate") {
+      data = await this.sortProductWithSearchHandler(
+        id,
+        windowSize,
+        skipRecords,
+        searchTxt,
+        { createdAt: 1 }
+      );
+    } else if (sortBy === "sortByPopularity") {
+      data = await this.sortProductWithSearchHandler(
+        id,
+        windowSize,
+        skipRecords,
+        searchTxt,
+        { createdAt: 1 }
+      );
+
       const result = await Promise.all(
-        productsArr.map(async (prodObj) => {
+        data.map(async (prodObj) => {
           const reviews = await prodObj.populate("productReviews");
 
           const avgRatings =
@@ -90,13 +144,14 @@ const ProductServices = {
           };
         })
       );
+
       data = result.sort((a, b) => b.avgRatings - a.avgRatings);
     }
 
-    if (!data) {
-      throw { message: "Somthing went wrong!" };
+    if (data.length > windowSize) {
+      return { products: data.slice(0, windowSize), haveMore: true };
     }
-    return data;
+    return { products: data, haveMore: false };
   },
 
   async addProductHandler(product) {

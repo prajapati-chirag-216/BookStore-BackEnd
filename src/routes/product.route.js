@@ -11,24 +11,23 @@ router.get(
   "/getproductsOfCategory/:id",
   catchAsync(ProductController.getProductsOfCategory)
 );
+
 router.get(
   "/getproduct/:id",
   catchAsync(allowUnauthenticated(permissions.FETCH_PRODUCT)),
   catchAsync(ProductController.getProductHandler)
 );
+
 router.get(
   "/getAllproducts",
   catchAsync(adminAuth(permissions.FETCH_PRODUCTS)),
   catchAsync(ProductController.getAllProductsHandler)
 );
+
 router.get(
   "/searchProduct/:name",
   catchAsync(adminAuth(permissions.SEARCH_PRODUCTS)),
   catchAsync(ProductController.searchProductHandler)
-);
-router.get(
-  "/getfilteredproducts/:id/:name",
-  catchAsync(ProductController.getFilteredProductsHandler)
 );
 
 router.post(
@@ -47,6 +46,11 @@ router.patch(
   "/updateproduct/:id",
   catchAsync(adminAuth(permissions.UPDATE_PRODUCT)),
   catchAsync(ProductController.updateProductHandler)
+);
+
+router.get(
+  "/getfilteredproducts/:id/:window/:skip/:sortBy/:searchTxt",
+  catchAsync(ProductController.getFilteredProductsHandler)
 );
 
 module.exports = router;

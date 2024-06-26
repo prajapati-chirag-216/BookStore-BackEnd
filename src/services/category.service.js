@@ -34,6 +34,7 @@ const CategoryServices = {
     const data = await Category.findById(id).select({ name: 1 });
     return data;
   },
+
   async searchCategoryHandler(searchName) {
     const searchNameWithoutSpaces = searchName.replace(/\s/g, "");
     const data = await Category.find({
@@ -42,6 +43,28 @@ const CategoryServices = {
 
     return data;
   },
+
+  async getFilteredCategoriesHandler(windowSize, skipRecords, searchName) {
+    let data = [];
+    if (searchName == "all") {
+      data = await Category.find()
+        .skip(skipRecords)
+        .limit(windowSize + 1);
+    } else {
+      const searchNameWithoutSpaces = searchName.replace(/\s/g, "");
+      data = await Category.find({
+        name: new RegExp(searchNameWithoutSpaces.split("").join(".*"), "i"),
+      })
+        .skip(skipRecords)
+        .limit(windowSize + 1);
+    }
+
+    if (data.length > windowSize) {
+      return { categories: data.slice(0, windowSize), haveMore: true };
+    }
+    return { categories: data, haveMore: false };
+  },
+
   async updateCategoryHandler(categoryData, id) {
     const data = await Category.findByIdAndUpdate(
       { _id: id },
@@ -57,14 +80,6 @@ const CategoryServices = {
       throw { message: "Item not Exist!" };
     }
     data.removeProducts();
-  },
-
-  async getCategoryByNameHandler(name) {
-    const data = await Category.findOne(name).select({
-      _id: 1,
-    });
-
-    return data._id.toString();
   },
 };
 

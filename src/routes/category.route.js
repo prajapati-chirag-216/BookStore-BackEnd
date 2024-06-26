@@ -12,21 +12,24 @@ router.get(
   catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORY)),
   catchAsync(CategoryController.getCategoryHandler)
 );
+// this api is used for admins when they serach categories
 router.get(
   "/searchCategory/:name",
   catchAsync(adminAuth(permissions.SEARCH_USERS)),
   catchAsync(CategoryController.searchCategoryHandler)
+);
+// this api is used for users to show categories with serach
+router.get(
+  "/getfilteredcategories/:window/:skip/:searchTxt",
+  catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORIES)),
+  catchAsync(CategoryController.getFilteredCategoriesHandler)
 );
 router.get(
   "/getAllCategories",
   catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORIES)),
   catchAsync(CategoryController.getAllCategoriesHandler)
 );
-router.get(
-  "/getCategoryByName/:name",
-  catchAsync(allowUnauthenticated(permissions.FETCH_CATEGORY_BY_NAME)),
-  catchAsync(CategoryController.getCategoryByName)
-);
+
 router.post(
   "/addCategory",
   catchAsync(adminAuth(permissions.ADD_CATEGORY)),

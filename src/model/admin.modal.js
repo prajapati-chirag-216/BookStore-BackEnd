@@ -114,6 +114,24 @@ adminSchema.statics.findbyCredentials = async function (email, password) {
   return admin;
 };
 
+adminSchema.statics.genrateHash = async function (data) {
+  const admin = await Admin.findOne({ email });
+  if (admin == null) {
+    throw {
+      status: status.UNAUTHORIZED,
+      message: "Invalid login details",
+    };
+  }
+  const compare = await bcrypt.compare(password, admin.password);
+  if (!compare) {
+    throw {
+      status: status.UNAUTHORIZED,
+      message: "Invalid password",
+    };
+  }
+  return admin;
+};
+
 adminSchema.pre("save", async function (next) {
   const admin = this;
   if (admin.isModified("password")) {
